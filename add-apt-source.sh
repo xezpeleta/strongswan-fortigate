@@ -18,8 +18,9 @@ PACKAGES="network-manager-strongswan strongswan-nm"
 [ "$(id -u)" = 0 ] || { echo "ERROR: run as root (sudo)"; exit 1; }
 
 . /etc/os-release
-if [ "${ID_LIKE:-$ID}" != ubuntu ] || [ "$VERSION_ID" != "26.04" ]; then
-    echo "ERROR: this repository targets Ubuntu 26.04 (resolute); you are on ${PRETTY_NAME}."
+if [ "${ID:-}" != ubuntu ] || [ "${VERSION_CODENAME:-}" != resolute ]; then
+    echo "ERROR: this repository targets Ubuntu 26.04 'resolute' (any 26.04.x point release);"
+    echo "       you are on ${PRETTY_NAME:-unknown}."
     exit 1
 fi
 
