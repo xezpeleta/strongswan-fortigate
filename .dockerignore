@@ -1,0 +1,9 @@
+# Keep the docker build context small.
+*
+!Dockerfile
+!fetch-sources.sh
+!build-packages.sh
+!debian-overlay/
+!debian-overlay/**
+!sources/
+!sources/**

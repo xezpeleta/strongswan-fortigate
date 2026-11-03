@@ -1,0 +1,38 @@
+From 137bfe8381bedece30b85bfbd261e57d26e42590 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jarno=20M=C3=A4kel=C3=A4?= <jarno.makela@iki.fi>
+Date: Sun, 11 Oct 2026 07:34:15 +0300
+Subject: [PATCH] charon-nm: Report missing private key to NetworkManager
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When cert-source is "file" or "agent" and the corresponding key/socket
+is absent, add_auth_cfg_cert() returned FALSE without setting a GError.
+NMVpnServicePlugin then called g_dbus_method_invocation_take_error()
+with the NULL error, which hit a GLib assertion, so no D-Bus reply
+was sent.  NetworkManager waited for its call to time out with no
+message.
+
+Signed-off-by: Jarno Mäkelä <jarno.makela@iki.fi>
+---
+ src/charon-nm/nm/nm_service.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/charon-nm/nm/nm_service.c b/src/charon-nm/nm/nm_service.c
+index e9ebe233bae..a3084ffc10b 100644
+--- a/src/charon-nm/nm/nm_service.c
++++ b/src/charon-nm/nm/nm_service.c
+@@ -692,6 +692,13 @@ static bool add_auth_cfg_cert(NMStrongswanPluginPrivate *priv,
+ 		}
+ 		else
+ 		{
++			if (!*err)
++			{
++				g_set_error(err, NM_VPN_PLUGIN_ERROR,
++							NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
++							agent ? "SSH agent socket is missing."
++								  : "Private key file is missing.");
++			}
+ 			DESTROY_IF(cert);
+ 			return FALSE;
+ 		}

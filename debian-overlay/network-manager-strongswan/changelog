@@ -1,0 +1,284 @@
+network-manager-strongswan (1.6.4-1+certeap1) resolute; urgency=medium
+
+  * Backport upstream cert-eap support: combined certificate + EAP
+    authentication (two IKEv2 auth rounds, RFC 4739) for the
+    NetworkManager strongSwan plugin (upstream commits 28d921822944,
+    06da609ebee4, 28a04fcb54ea, d64176ce90a6).
+  * Adds "Certificate + EAP (Username/Password)" method and separate
+    userkey-password/pin secrets in editor and auth dialog.
+  * CVE-2025-9615 ssh-agent hardening from 1.6.4 is preserved.
+  * Needed for IKEv2 servers requiring client certificate + EAP
+    (e.g. FortiOS with "eap-cert-auth enable").
+
+ -- xezpeleta <xezpeleta@tknika.eus>  Tue, 03 Nov 2026 10:20:00 +0100
+
+network-manager-strongswan (1.6.4-1) unstable; urgency=medium
+
+  * new upstream version 1.6.4, fixing CVE-2025-9615, see
+    https://www.strongswan.org/blog/2025/12/12/strongswan-vulnerability-(cve-2025-9615).html
+    (Closes: #1122993)
+
+ -- Harald Dunkel <harri@afaics.de>  Wed, 17 Dec 2025 18:40:58 +0100
+
+network-manager-strongswan (1.6.2-1) unstable; urgency=medium
+
+  * new upstream version 1.6.2
+
+ -- Harald Dunkel <harri@afaics.de>  Sat, 15 Mar 2025 11:46:33 +0100
+
+network-manager-strongswan (1.6.1-2) unstable; urgency=medium
+
+  * replace pkg-config by pkgconf
+  * replace intltool by gettext
+  * drop gnome-common
+
+ -- Harald Dunkel <harri@afaics.de>  Wed, 25 Dec 2024 11:35:10 +0100
+
+network-manager-strongswan (1.6.1-1) unstable; urgency=medium
+
+  * new upstream version 1.6.1
+
+ -- Harald Dunkel <harri@afaics.de>  Wed, 04 Dec 2024 17:45:15 +0100
+
+network-manager-strongswan (1.6.0-3) unstable; urgency=medium
+
+  * remove deprecated /etc/NetworkManager/VPN/nm-strongswan-service.name
+    file (Closes: #897906, #897939).
+  * drop libdbus-glib-1-dev from Build-Depends (Closes: #955849).
+  * Install helper binaries into /usr/libexec (Closes: #1054310). Patch
+    was provided by Michael Biebl (biebl@debian.org)
+  * Disable static libraries, those are not needed and only take up space
+  * Remove libtool *.la files, those are not useful as well
+
+ -- Harald Dunkel <harri@afaics.de>  Thu, 26 Oct 2023 17:18:53 +0200
+
+network-manager-strongswan (1.6.0-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * debian/rules: Properly append CFLAGS to avoid build error
+    on deprecated functions. (Closes: #1042044)
+
+ -- Boyuan Yang <byang@debian.org>  Mon, 02 Oct 2023 12:51:54 -0400
+
+network-manager-strongswan (1.6.0-2) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Change priority extra to priority optional.
+  * Drop unnecessary dependency on dh-autoreconf.
+  * Fix day-of-week for changelog entries 1.4.5-1, 1.3.1-2.
+  * Remove empty maintainer scripts: network-manager-strongswan (postinst)
+
+  [ Harald Dunkel ]
+  * Build editor component with GTK 4, too (fix provided bt Moritz Schlarb)
+    (Closes: #1020495, #1036607)
+
+ -- Harald Dunkel <harri@afaics.de>  Sun, 11 Jun 2023 10:20:41 +0200
+
+network-manager-strongswan (1.6.0-1) unstable; urgency=medium
+
+  * new upstream version 1.6.0:
+   This version supports GTK 4 (in addition to GTK 3), but doesn't
+   support compiling against libnm-glib anymore.
+
+ -- Harald Dunkel <harri@afaics.de>  Sat, 16 Jul 2022 14:07:25 +0200
+
+network-manager-strongswan (1.5.2-1) unstable; urgency=medium
+
+  * new upstream version 1.5.2:
+    Reduce height of config dialog by moving options/proposals to tabs
+    Migrated appdata to metainfo (renamed and moved the file)
+
+  * adjust binary dependency: new version requires strongswan-nm >= 5.8.4
+  * set to debhelper 13 (no changes)
+
+ -- Harald Dunkel <harri@afaics.de>  Tue, 19 May 2020 19:39:04 +0200
+
+network-manager-strongswan (1.5.1-1) unstable; urgency=medium
+
+  * new upstream version 1.5.1:
+    Fixes password entry for private keys
+
+  * new upstream version 1.5.0:
+    EAP-TLS authentication
+    Certificate source (file, agent, smartcard) is selectable independently
+    Add support to configure local and remote identities
+    Support configuring a custom server port
+    Show hint regarding password storage policy
+    Replaced the term "gateway" with "server"
+    Fixes build issues due to use of deprecated GLib macros/functions
+    Updated Glade file to GTK 3.2
+
+  * drop obsolete glib-private.patch
+
+ -- Harald Dunkel <harri@afaics.de>  Sat, 16 May 2020 16:18:50 +0200
+
+network-manager-strongswan (1.4.5-2.1) unstable; urgency=medium
+
+  * Add note about Vcs-Git to changelog entry for 1.4.5-2.
+
+ -- Ian Jackson <ijackson@chiark.greenend.org.uk>  Thu, 05 Mar 2020 14:05:45 +0000
+
+network-manager-strongswan (1.4.5-2) unstable; urgency=medium
+
+  * recreate glib-private.patch using "git format-patch -k --stdout"
+  * Point Vcs-Git and Vcs-Browse to salsa, where the repo is now.
+  * missed to mention the changed build dependencies in 1.4.5-1.
+    Fixed.
+
+ -- Harald Dunkel <harri@afaics.de>  Tue, 25 Feb 2020 20:16:12 +0100
+
+network-manager-strongswan (1.4.5-1) unstable; urgency=medium
+
+  * new upstream: Enables the IPv6 tab in the connection dialog
+  * debhelper compat 12
+  * debian standards 4.5.0.0
+  * add glib-private patch (https://wiki.strongswan.org/issues/3197)
+    (Closes: #945567)
+  * drop ignore_deprecated_api.diff
+  * drop network-manager reload in postinst (Closes: #650508)
+  * make lintian --pedantic happy
+  * update build dependencies: use network-manager-dev >= 1.14 and
+    libnm-dev (network-manager-applet) >= 1.8, matching Buster and
+    Sid
+
+ -- Harald Dunkel <harri@afaics.de>  Thu, 20 Feb 2020 11:30:55 +0100
+
+network-manager-strongswan (1.4.4-2) unstable; urgency=medium
+
+  * ignore deprecated api in libglib2.0-dev 2.58.1-2, until upstream
+    fixes https://wiki.strongswan.org/issues/2765 (Closes: #907953)
+
+ -- Harald Dunkel <harri@afaics.de>  Wed, 03 Oct 2018 11:33:28 +0200
+
+network-manager-strongswan (1.4.4-1) unstable; urgency=medium
+
+  * new upstream version 1.4.4:
+      improved German translation
+      use libnm.pc instead of NetworkManager.pc at build time
+  * local libnm.pc patch has been dropped
+  * Retrospectively slightly improved changelog entry for 1.4.3-2
+
+ -- Harald Dunkel <harri@afaics.de>  Thu, 10 May 2018 18:55:05 +0200
+
+network-manager-strongswan (1.4.3-2) unstable; urgency=medium
+
+  * new upstream version 1.4.3
+  * drop deprecated libnm-glib/libnm-gtk libraries (Closes: #887951)
+  * Don't rely on NetworkManager.pc for paths when building without
+    libnm-glib. Patch provided by upstream.
+  * skip revision 1.4.3-1, due to problems discovered during review.
+
+ -- Harald Dunkel <harri@afaics.de>  Mon, 30 Apr 2018 16:44:16 +0200
+
+network-manager-strongswan (1.4.2-2) unstable; urgency=medium
+
+  * drop build-depends upon libgnomeui-dev (Closes: #885753)
+  * use https in debian/{copyright,nm-strongswan-service.conf}
+
+ -- Harald Dunkel <harri@afaics.de>  Sat, 27 Jan 2018 06:08:36 +0100
+
+network-manager-strongswan (1.4.2-1) unstable; urgency=medium
+
+  * new upstream version 1.4.2:
+  * Add support to configure IKE/ESP proposals
+  * Explicitly prevent PIN from getting stored
+
+ -- Harald Dunkel <harri@afaics.de>  Sun, 25 Jun 2017 12:36:31 +0200
+
+network-manager-strongswan (1.4.1-1) unstable; urgency=medium
+
+  * new upstream version 1.4.1
+  * drop dbus policy file again, require strongswan 5.5.1 instead
+
+ -- Harald Dunkel <harri@afaics.de>  Sat, 22 Oct 2016 14:25:40 +0200
+
+network-manager-strongswan (1.4.0-1) unstable; urgency=medium
+
+  * new major upstream version
+  * dropped cdbs in favor of debhelper
+  * removed obsolete patches
+  * temporarily add dbus policy file, to be provided by strongswan 5.5.1
+
+ -- Harald Dunkel <harri@afaics.de>  Mon, 19 Sep 2016 09:42:42 +0200
+
+network-manager-strongswan (1.3.1-2) unstable; urgency=medium
+
+  * fix broken configuration GUI. Patch provided by Michal Bruncko
+    and Michael Terry. Verified by David Härdeman. Thanx to all.
+    (Closes: #799200)
+  * follow standards version 3.9.8
+  * linitian cleanups
+
+ -- Harald Dunkel <harri@afaics.de>  Sun, 28 Aug 2016 09:47:28 +0100
+
+network-manager-strongswan (1.3.1-1) unstable; urgency=low
+
+  * new upstream version 1.3.1
+  * refresh patches
+
+ -- Harald Dunkel <harri@afaics.de>  Fri, 11 Sep 2015 07:48:41 +0200
+
+network-manager-strongswan (1.3.0-2) unstable; urgency=medium
+
+  * changed maintainer to Harald Dunkel <harri@afaics.de>, as agreed
+    with Martin Willi
+  * fix nm-strongswan-service.name (Closes: #773764)
+  * fix FTBFS on Jessie (Closes: #759826)
+  * set format to '3.0 (quilt)'
+  * set compat to 9
+
+ -- Harald Dunkel <harri@afaics.de>  Tue, 17 Feb 2015 13:24:00 +0100
+
+network-manager-strongswan (1.3.0-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * use charon-nm instead of charon (Closes: #741415)
+
+ -- Harald Dunkel <hdunkel@aixigo.de>  Wed, 16 Jul 2014 13:14:52 +0200
+
+network-manager-strongswan (1.3.0-1) unstable; urgency=low
+
+  * New upstream release, support for NetworkManager 0.9 (Closes: #639400)
+
+ -- Martin Willi <martin@strongswan.org>  Mon, 02 Jul 2012 09:55:20 +0200
+
+network-manager-strongswan (1.1.2-2) unstable; urgency=low
+
+  * Do not install unused libtool and static libraries
+    (Closes: #622499)
+
+ -- Martin Willi <martin@strongswan.org>  Tue, 19 Apr 2011 11:07:10 +0200
+
+network-manager-strongswan (1.1.2-1) unstable; urgency=low
+
+  * New upstream release, fixes pkgconfig for new libnm-glib packages
+    (Closes: #569302)
+
+ -- Martin Willi <martin@strongswan.org>  Thu, 18 Feb 2010 09:41:39 +0100
+
+network-manager-strongswan (1.1.1-2) unstable; urgency=low
+
+  * Added ${shlibs:Depends} dependency
+  * Reload network-manager after installation, reloading dbus is insufficient.
+  * Fixed debhelper-but-no-misc-depends, out-of-date-standards-version and
+    copyright-without-copyright-notice lintian warnings
+
+ -- Martin Willi <martin@strongswan.org>  Mon, 12 Oct 2009 10:19:40 +0200
+
+network-manager-strongswan (1.1.1-1) unstable; urgency=low
+
+  * New upstream release fixing a crasher when saving connections
+  * Fix "Wrong path to network-manager initscript in postinst"
+    Reload dbus instead of network-manager, as other VPN plugins do.
+    (Closes: #529189)
+  * Fix "FTBFS: No package 'libnm-util' found"
+    added dependencies to libnm-util-dev and libnm-glib-vpn-dev
+    (Closes: #528977)
+
+ -- Martin Willi <martin@strongswan.org>  Tue, 19 May 2009 13:16:51 +0200
+
+network-manager-strongswan (1.1.0-1) unstable; urgency=low
+
+  * Initial Debian packaging of NetworkManager plugin for strongSwan
+
+ -- Martin Willi <martin@strongswan.org>  Wed, 25 Mar 2009 09:07:05 +0100

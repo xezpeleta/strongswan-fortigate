@@ -1,0 +1,94 @@
+From 0e861e123e0c19a24a45c4965bda6f02d047a441 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jarno=20M=C3=A4kel=C3=A4?= <jarno.makela@iki.fi>
+Date: Mon, 12 Oct 2026 14:42:45 +0300
+Subject: [PATCH] charon-nm: Use separate secrets for smartcard PIN and key
+ password
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The smartcard PIN and the private key passphrase were both read from
+the "password" secret.  A forthcoming method will use "password" as
+the EAP password while also using a certificate, so the two secrets
+need distinct names.
+
+Read the PIN from "pin" and the key passphrase from
+"userkey-password", falling back to "password" when the new secret is
+absent so that connections saved before this change and other front
+ends continue to work.
+
+Also avoid asking for a password if no key file is available or the
+user/UI tells us no password is required (could result in a loop).
+
+Signed-off-by: Jarno Mäkelä <jarno.makela@iki.fi>
+---
+ src/charon-nm/nm/nm_service.c | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
+
+diff --git a/src/charon-nm/nm/nm_service.c b/src/charon-nm/nm/nm_service.c
+index a3084ffc10b..c60bd76649a 100644
+--- a/src/charon-nm/nm/nm_service.c
++++ b/src/charon-nm/nm/nm_service.c
+@@ -599,7 +599,8 @@ static bool add_auth_cfg_cert(NMStrongswanPluginPrivate *priv,
+ 	{
+ 		char *pin;
+ 
+-		pin = (char*)nm_setting_vpn_get_secret(vpn, "password");
++		pin = (char*)(nm_setting_vpn_get_secret(vpn, "pin") ?:
++					  nm_setting_vpn_get_secret(vpn, "password"));
+ 		if (pin)
+ 		{
+ 			id = find_smartcard_key(priv, pin);
+@@ -663,7 +664,8 @@ static bool add_auth_cfg_cert(NMStrongswanPluginPrivate *priv,
+ 		{
+ 			char *secret;
+ 
+-			secret = (char*)nm_setting_vpn_get_secret(vpn, "password");
++			secret = (char*)(nm_setting_vpn_get_secret(vpn, "userkey-password")
++							 ?: nm_setting_vpn_get_secret(vpn, "password"));
+ 			if (secret)
+ 			{
+ 				priv->creds->set_key_password(priv->creds, secret);
+@@ -1220,13 +1222,28 @@ static gboolean need_secrets(NMVpnServicePlugin *plugin, NMConnection *connectio
+ 			}
+ 			else if (streq(cert_source, "smartcard"))
+ 			{
+-				need_secret = !nm_setting_vpn_get_secret(settings, "password");
++				need_secret = !nm_setting_vpn_get_secret(settings, "pin") &&
++							  !nm_setting_vpn_get_secret(settings, "password");
+ 			}
+ 			else
+ 			{
++				NMSettingSecretFlags flags = NM_SETTING_SECRET_FLAG_NONE;
++
+ 				need_secret = TRUE;
+ 				path = nm_setting_vpn_get_data_item(settings, "userkey");
+-				if (path)
++				/* if we don't have a key or the user/UI indicates no password
++				 * is required, just let connect() handle this */
++				if (!path)
++				{
++					need_secret = FALSE;
++				}
++				else if (nm_setting_get_secret_flags(NM_SETTING(settings),
++											"userkey-password", &flags, NULL) &&
++						 (flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED))
++				{
++					need_secret = FALSE;
++				}
++				else
+ 				{
+ 					private_key_t *key;
+ 					const char *user;
+@@ -1246,7 +1263,10 @@ static gboolean need_secrets(NMVpnServicePlugin *plugin, NMConnection *connectio
+ 							key->destroy(key);
+ 							need_secret = FALSE;
+ 						}
+-						else if (nm_setting_vpn_get_secret(settings, "password"))
++						else if (nm_setting_vpn_get_secret(settings,
++														"userkey-password") ||
++								 nm_setting_vpn_get_secret(settings,
++														"password"))
+ 						{
+ 							need_secret = FALSE;
+ 						}

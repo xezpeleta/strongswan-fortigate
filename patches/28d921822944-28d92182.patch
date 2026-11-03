@@ -1,0 +1,54 @@
+From 28d92182294474d1e415e14aa183ff4e1ec45ec2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jarno=20M=C3=A4kel=C3=A4?= <jarno.makela@iki.fi>
+Date: Sun, 11 Oct 2026 07:34:15 +0300
+Subject: [PATCH] nm: Preserve file paths when chooser has not resolved them
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+gtk_file_chooser_set_file() documents that the file must exist, or
+nothing will be done except for the directory change.  In GTK's
+source, set_file() selects the file at once only if the chooser has
+already loaded the file's folder; otherwise it records the file as
+pending and selects it when the folder load finishes.  Under GTK 4,
+a file in a directory the user cannot read is never selected.  The
+editor's choosers are never shown unless the user clicks the button,
+so nothing else resolves the file.  Saving the connection in any of
+those cases silently dropped the certificate, usercert, and userkey
+paths.  For system connections, charon-nm reads the files as root,
+so a key under /etc/swanctl/private works even if the editor's user
+cannot read that directory.
+
+A file the user picks in the dialog always takes precedence over the
+fallback.
+
+Signed-off-by: Jarno Mäkelä <jarno.makela@iki.fi>
+---
+ src/frontends/gnome/properties/nm-strongswan.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/frontends/gnome/properties/nm-strongswan.c b/src/frontends/gnome/properties/nm-strongswan.c
+index 6af49eca3b4..65fb225438d 100644
+--- a/src/frontends/gnome/properties/nm-strongswan.c
++++ b/src/frontends/gnome/properties/nm-strongswan.c
+@@ -362,6 +362,9 @@ init_chooser (GtkBuilder *builder, NMSettingVpn *settings, const char *setting,
+ 	{
+ 		file = g_file_new_for_path (value);
+ 		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (widget), file, NULL);
++		/* Store the path as fallback, because if the file doesn't exist or is
++		 * inaccessible to the current user, the chooser won't return it later */
++		g_object_set_data_full (G_OBJECT (widget), "path", g_strdup (value), g_free);
+ 	}
+ 	g_signal_connect (G_OBJECT (widget), "response",
+ 					  G_CALLBACK (chooser_response_cb), label);
+@@ -611,6 +614,10 @@ save_file_chooser (NMSettingVpn *settings, GtkBuilder *builder,
+ 	file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (chooser));
+ 	if (file) {
+ 		str = g_file_get_path (file);
++	} else {
++		/* Use the fallback as the chooser won't return a file if it's missing
++		 * or the folder is inaccessible to the current user */
++		str = g_strdup (g_object_get_data (G_OBJECT (chooser), "path"));
+ 	}
+ 	if (str && strlen(str)) {
+ 		nm_setting_vpn_add_data_item (settings, key, str);

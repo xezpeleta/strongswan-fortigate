@@ -1,0 +1,21 @@
+# build outputs
+/dist/
+/build.log
+
+# assembled source trees (recreated by fetch-sources.sh from sources/ + debian-overlay/)
+/pkg/
+
+# intermediate working trees used while creating the backport
+/trees/
+
+# misc scratch
+*.html
+master-auth-dialog-main.c
+nohup.out
+*.rej
+*.orig
+
+# generated apt repository staging dir (published to the gh-pages branch)
+/apt-repo/
+/.gh-pages/
+*.swp
