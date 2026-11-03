@@ -62,7 +62,7 @@ echo "==> pushing gh-pages (force)"
     git init -q .
     git add -A
     git commit -qm "apt repository update $(date -u '+%Y-%m-%d %H:%M UTC')"
-    git push -qf origin HEAD:gh-pages
+    git push -qf "https://github.com/$REPO.git" HEAD:gh-pages
 )
 
 echo "==> enabling GitHub Pages (idempotent)"
