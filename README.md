@@ -104,12 +104,12 @@ may become obsolete once a fix lands upstream and reaches Ubuntu.
 ### Option 1: apt repository (recommended)
 
 The packages are served from this repo's GitHub Pages site:
-<https://xezpeleta.github.io/strongswan-deb-packages/>
+<https://xezpeleta.github.io/strongswan-fortigate/>
 
 Enable the repository and install (Ubuntu 26.04):
 
 ```bash
-curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash
+curl -fsSL https://xezpeleta.github.io/strongswan-fortigate/add-apt-source.sh | sudo bash
 sudo apt install strongswan-fortigate
 ```
 
@@ -126,7 +126,7 @@ third-party repo, use option 2 and read the patches).
 ### Option 2: direct .deb download
 
 Grab the `+fortigate1` debs from the
-[GitHub releases](https://github.com/xezpeleta/strongswan-deb-packages/releases)
+[GitHub releases](https://github.com/xezpeleta/strongswan-fortigate/releases)
 (release `fortigate-1`) and:
 
 ```bash

@@ -1,13 +1,13 @@
 #!/bin/bash
-# Enable the strongswan-deb-packages apt repository on Ubuntu 26.04 and
+# Enable the strongswan-fortigate apt repository on Ubuntu 26.04 and
 # (optionally) install the FortiGate compatibility packages.
 #
 # Usage (one-liner):
-#   curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash
+#   curl -fsSL https://xezpeleta.github.io/strongswan-fortigate/add-apt-source.sh | sudo bash
 #   sudo apt install strongswan-fortigate
 #
 # Or everything in one go:
-#   curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash -s -- --install
+#   curl -fsSL https://xezpeleta.github.io/strongswan-fortigate/add-apt-source.sh | sudo bash -s -- --install
 #
 # Or the cautious way (read the script first):
 #   curl -fsSL .../add-apt-source.sh -o /tmp/add-apt-source.sh
@@ -15,9 +15,13 @@
 #   sudo bash /tmp/add-apt-source.sh --install
 set -e
 
-REPO_URL="https://xezpeleta.github.io/strongswan-deb-packages"
-KEYRING="/usr/share/keyrings/xezpeleta-strongswan-certeap.gpg"
-SOURCES_FILE="/etc/apt/sources.list.d/xezpeleta-strongswan-certeap.sources"
+REPO_URL="https://xezpeleta.github.io/strongswan-fortigate"
+KEYRING="/usr/share/keyrings/xezpeleta-strongswan-fortigate.gpg"
+SOURCES_FILE="/etc/apt/sources.list.d/xezpeleta-strongswan-fortigate.sources"
+
+# remove files from the previous repo name/naming scheme, if present
+rm -f /usr/share/keyrings/xezpeleta-strongswan-certeap.gpg \
+      /etc/apt/sources.list.d/xezpeleta-strongswan-certeap.sources
 PACKAGES="strongswan-fortigate"
 
 [ "$(id -u)" = 0 ] || { echo "ERROR: run as root (sudo)"; exit 1; }

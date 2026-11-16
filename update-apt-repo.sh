@@ -46,8 +46,8 @@ docker run --rm \
 
         cd "dists/$SUITE"
         {
-            echo "Origin: strongswan-deb-packages"
-            echo "Label: strongswan-deb-packages"
+            echo "Origin: strongswan-fortigate"
+            echo "Label: strongswan-fortigate"
             echo "Suite: $SUITE"
             echo "Codename: $SUITE"
             echo "Architectures: amd64"

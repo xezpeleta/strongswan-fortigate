@@ -8,7 +8,7 @@
 set -e
 cd "$(dirname "$0")"
 
-REPO="${GITHUB_REPOSITORY:-xezpeleta/strongswan-deb-packages}"
+REPO="${GITHUB_REPOSITORY:-xezpeleta/strongswan-fortigate}"
 TAG="${RELEASE_TAG:-fortigate-1}"
 
 [ -d apt-repo/dists ] || { echo "ERROR: apt-repo/ missing — run update-apt-repo.sh first"; exit 1; }
@@ -22,7 +22,7 @@ if ! gh repo view "$REPO" >/dev/null 2>&1; then
     echo "==> creating GitHub repository $REPO (public)"
     gh repo create "$REPO" --public \
         --description "Unofficial strongSwan builds for FortiGate IPsec VPN (certificate + EAP) — Ubuntu 26.04" \
-        --homepage "https://xezpeleta.github.io/strongswan-deb-packages/"
+        --homepage "https://xezpeleta.github.io/strongswan-fortigate/"
 fi
 gh repo edit "$REPO" --description "Unofficial strongSwan builds for FortiGate IPsec VPN (certificate + EAP) — Ubuntu 26.04" >/dev/null 2>&1 || true
 
@@ -41,7 +41,7 @@ cp add-apt-source.sh .gh-pages/
 cat > .gh-pages/index.html <<'EOF'
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><title>strongswan-deb-packages</title></head>
+<head><meta charset="utf-8"><title>strongswan-fortigate</title></head>
 <body style="font-family: sans-serif; max-width: 46rem; margin: 3rem auto; line-height: 1.5">
 <h1>Unofficial strongSwan for FortiGate IPsec VPN — Ubuntu 26.04</h1>
 <p><strong>Unofficial, third-party builds</strong> — not affiliated with the
@@ -52,9 +52,9 @@ FortiGate IPsec dial-up VPNs using
 enforces the client certificate and silently drops EAP-only clients;
 the gateway does not implement RFC&nbsp;4739).
 Details: <a href="https://github.com/strongswan/strongswan/issues/3120">strongswan#3120</a>,
-<a href="https://github.com/xezpeleta/strongswan-deb-packages">source &amp; releases</a>.</p>
+<a href="https://github.com/xezpeleta/strongswan-fortigate">source &amp; releases</a>.</p>
 <p>Enable on Ubuntu 26.04:</p>
-<pre>curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash
+<pre>curl -fsSL https://xezpeleta.github.io/strongswan-fortigate/add-apt-source.sh | sudo bash
 sudo apt install strongswan-fortigate</pre>
 <p>The repository is signed; the <code>InRelease</code> GPG signature is the
 trust anchor. Review the (small) patches and rebuild from source if you
@@ -95,9 +95,9 @@ accepts. See https://github.com/strongswan/strongswan/issues/3120 and
 https://github.com/strongswan/strongswan/discussions/3014
 
 Easier and recommended: use the apt repository —
-https://xezpeleta.github.io/strongswan-deb-packages/
+https://xezpeleta.github.io/strongswan-fortigate/
 
-    curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash
+    curl -fsSL https://xezpeleta.github.io/strongswan-fortigate/add-apt-source.sh | sudo bash
     sudo apt install strongswan-fortigate
 
 Unofficial third-party builds; not affiliated with the strongSwan project,
@@ -120,5 +120,5 @@ rm -f "$NOTES"
 echo
 echo "Published:"
 echo "  code:    https://github.com/$REPO"
-echo "  apt:     https://xezpeleta.github.io/strongswan-deb-packages/"
+echo "  apt:     https://xezpeleta.github.io/strongswan-fortigate/"
 echo "  release: https://github.com/$REPO/releases/tag/$TAG"
