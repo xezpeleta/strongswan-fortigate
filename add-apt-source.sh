@@ -1,19 +1,24 @@
 #!/bin/bash
 # Enable the strongswan-deb-packages apt repository on Ubuntu 26.04 and
-# (optionally) install the cert-eap backport.
+# (optionally) install the FortiGate compatibility packages.
 #
-# Usage:
-#   sudo bash add-apt-source.sh              # just enable the repo
-#   sudo bash add-apt-source.sh --install    # enable + install packages
+# Usage (one-liner):
+#   curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash
+#   sudo apt install strongswan-fortigate
 #
-# Or one-liner (check the URL in a browser first!):
+# Or everything in one go:
 #   curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash -s -- --install
+#
+# Or the cautious way (read the script first):
+#   curl -fsSL .../add-apt-source.sh -o /tmp/add-apt-source.sh
+#   less /tmp/add-apt-source.sh
+#   sudo bash /tmp/add-apt-source.sh --install
 set -e
 
 REPO_URL="https://xezpeleta.github.io/strongswan-deb-packages"
 KEYRING="/usr/share/keyrings/xezpeleta-strongswan-certeap.gpg"
 SOURCES_FILE="/etc/apt/sources.list.d/xezpeleta-strongswan-certeap.sources"
-PACKAGES="network-manager-strongswan strongswan-charon libcharon-extauth-plugins libcharon-extra-plugins"
+PACKAGES="strongswan-fortigate"
 
 [ "$(id -u)" = 0 ] || { echo "ERROR: run as root (sudo)"; exit 1; }
 
@@ -41,12 +46,11 @@ echo "==> apt update"
 apt-get update || { echo "ERROR: apt update failed — see errors above"; exit 1; }
 
 echo
-echo "Repository enabled. Install the backport with:"
-echo "  sudo apt install $PACKAGES"
-echo "(future official Ubuntu updates automatically take precedence)"
-
 if [ "${1:-}" = "--install" ]; then
-    echo
     echo "==> installing $PACKAGES"
     apt-get install -y $PACKAGES
+else
+    echo "Repository enabled. Install the FortiGate packages with:"
+    echo "  sudo apt install $PACKAGES"
+    echo "(future official Ubuntu updates automatically take precedence)"
 fi

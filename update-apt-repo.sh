@@ -18,7 +18,8 @@ for f in dist/network-manager-strongswan_*_amd64.deb \
          dist/strongswan-charon_*fortigate1*.deb \
          dist/strongswan-libcharon_*fortigate1*.deb \
          dist/libstrongswan_*fortigate1*.deb \
-         dist/libcharon-extauth-plugins_*fortigate1*.deb; do
+         dist/libcharon-extauth-plugins_*fortigate1*.deb \
+         dist/strongswan-fortigate_*_all.deb; do
     [ -e "$f" ] || { echo "ERROR: $f missing — run build-in-docker.sh first"; exit 1; }
 done
 
@@ -33,9 +34,11 @@ docker run --rm \
         set -x
         mkdir -p apt-repo/pool/main/n/network-manager-strongswan \
                  apt-repo/pool/main/s/strongswan \
+                 apt-repo/pool/main/s/strongswan-fortigate \
                  "apt-repo/dists/$SUITE/main/binary-amd64"
         cp dist/network-manager-strongswan_*_amd64.deb apt-repo/pool/main/n/network-manager-strongswan/
         cp dist/*fortigate1*.deb apt-repo/pool/main/s/strongswan/
+        cp dist/strongswan-fortigate_*_all.deb apt-repo/pool/main/s/strongswan-fortigate/
         cd apt-repo
 
         dpkg-scanpackages --arch amd64 pool > "dists/$SUITE/main/binary-amd64/Packages"

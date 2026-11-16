@@ -82,6 +82,7 @@ may become obsolete once a fix lands upstream and reaches Ubuntu.
 
 | Package | Ubuntu 26.04 version | This build |
 |---|---|---|
+| **strongswan-fortigate** (metapackage) | — | 1.0+fortigate1 |
 | network-manager-strongswan | 1.6.4-1 | 1.6.4-1+certeap1 |
 | strongswan-nm | 6.0.4-1ubuntu3.2 | 6.0.4-1ubuntu3.2+fortigate1 |
 | strongswan-libcharon, libstrongswan | 6.0.4-1ubuntu3.2 | +fortigate1 |
@@ -105,23 +106,20 @@ may become obsolete once a fix lands upstream and reaches Ubuntu.
 The packages are served from this repo's GitHub Pages site:
 <https://xezpeleta.github.io/strongswan-deb-packages/>
 
-Enable it (and optionally install right away):
+Enable the repository and install (Ubuntu 26.04):
 
 ```bash
-curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh -o /tmp/add-apt-source.sh
-sudo bash /tmp/add-apt-source.sh --install
+curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash
+sudo apt install strongswan-fortigate
 ```
 
-Or manually:
+(`strongswan-fortigate` is a metapackage that pulls the patched daemon
+stack and the NetworkManager plugin. If you prefer to read scripts
+before piping them into a shell — a good habit — download it first:
+`curl -fsSL … -o /tmp/a.sh`, inspect it, then `sudo bash /tmp/a.sh`.)
 
-```bash
-sudo bash add-apt-source.sh            # enable repo only
-sudo apt install network-manager-strongswan strongswan-charon \
-                 libcharon-extauth-plugins libcharon-extra-plugins
-```
-
-The repository is signed; `add-apt-source.sh` fetches the key from the
-same site and wires it into `/usr/share/keyrings/` (the GPG signature of
+The repository is signed; the script fetches the key from the same
+site and wires it into `/usr/share/keyrings/` (the GPG signature of
 `InRelease` is the real trust anchor — if you do not want to trust a
 third-party repo, use option 2 and read the patches).
 
@@ -132,7 +130,8 @@ Grab the `+fortigate1` debs from the
 (release `fortigate-1`) and:
 
 ```bash
-sudo apt install ./network-manager-strongswan_1.6.4-1+certeap1_amd64.deb \
+sudo apt install ./strongswan-fortigate_*_all.deb \
+                 ./network-manager-strongswan_1.6.4-1+certeap1_amd64.deb \
                  ./strongswan-nm_*fortigate1_amd64.deb \
                  ./strongswan-charon_*fortigate1_amd64.deb \
                  ./strongswan-libcharon_*fortigate1_amd64.deb \
@@ -218,6 +217,7 @@ same message shape behind an explicit opt-in.
 ├── build-in-docker.sh            fetch + build inside Docker (no sudo needed)
 ├── install-builddeps.sh          alternative: local build dependencies
 ├── sources/                      pristine Ubuntu 26.04 source packages (committed)
+├── native/strongswan-fortigate/  metapackage source (committed)
 ├── debian-overlay/               our changelog + quilt patches (the "code")
 │   ├── network-manager-strongswan/
 │   └── strongswan/

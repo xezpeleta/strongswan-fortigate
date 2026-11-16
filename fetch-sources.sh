@@ -44,5 +44,11 @@ untar sources/strongswan_6.0.4-1ubuntu3.2.debian.tar.xz \
     pkg/strongswan-6.0.4
 cp -r debian-overlay/strongswan/* pkg/strongswan-6.0.4/debian/
 
+# native metapackage (no orig tarball; version from its changelog)
+META_VER=$(sed -n '1s/^strongswan-fortigate (\([^)]*\)).*/\1/p' \
+    native/strongswan-fortigate/debian/changelog)
+[ -n "$META_VER" ] || { echo "ERROR: cannot parse metapackage version"; exit 1; }
+cp -r native/strongswan-fortigate "pkg/strongswan-fortigate-$META_VER"
+
 echo "==> pkg/ ready:"
 ls -d pkg/*

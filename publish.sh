@@ -54,8 +54,8 @@ the gateway does not implement RFC&nbsp;4739).
 Details: <a href="https://github.com/strongswan/strongswan/issues/3120">strongswan#3120</a>,
 <a href="https://github.com/xezpeleta/strongswan-deb-packages">source &amp; releases</a>.</p>
 <p>Enable on Ubuntu 26.04:</p>
-<pre>curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh -o /tmp/a.sh
-sudo bash /tmp/a.sh --install</pre>
+<pre>curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash
+sudo apt install strongswan-fortigate</pre>
 <p>The repository is signed; the <code>InRelease</code> GPG signature is the
 trust anchor. Review the (small) patches and rebuild from source if you
 prefer your own binaries.</p>
@@ -97,15 +97,15 @@ https://github.com/strongswan/strongswan/discussions/3014
 Easier and recommended: use the apt repository —
 https://xezpeleta.github.io/strongswan-deb-packages/
 
-    curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh -o /tmp/a.sh
-    sudo bash /tmp/a.sh --install
+    curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh | sudo bash
+    sudo apt install strongswan-fortigate
 
 Unofficial third-party builds; not affiliated with the strongSwan project,
 Fortinet or Ubuntu. Tested on FortiGate 101F / FortiOS 7.4.13 / Ubuntu 26.04.
 All Ubuntu security patches are preserved; a future official Ubuntu update
 replaces these builds automatically.
 EOF
-REL_ASSETS="dist/*fortigate1*.deb dist/network-manager-strongswan_*certeap1_amd64.deb"
+REL_ASSETS="dist/strongswan-fortigate_*_all.deb dist/*fortigate1*.deb dist/network-manager-strongswan_*certeap1_amd64.deb"
 if gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
     # shellcheck disable=SC2086
     gh release upload "$TAG" -R "$REPO" $REL_ASSETS --clobber

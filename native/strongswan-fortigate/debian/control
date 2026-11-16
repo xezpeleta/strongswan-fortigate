@@ -1,0 +1,26 @@
+Source: strongswan-fortigate
+Section: net
+Priority: optional
+Maintainer: xezpeleta <xezpeleta@tknika.eus>
+Standards-Version: 4.7.2
+Build-Depends: debhelper-compat (= 13)
+
+Package: strongswan-fortigate
+Architecture: all
+Depends: network-manager-strongswan (>= 1.6.4-1+certeap1),
+         strongswan-charon (>= 6.0.4-1ubuntu3.2+fortigate1),
+         strongswan-starter (>= 6.0.4-1ubuntu3.2+fortigate1),
+         libcharon-extauth-plugins (>= 6.0.4-1ubuntu3.2+fortigate1),
+         libcharon-extra-plugins (>= 6.0.4-1ubuntu3.2+fortigate1),
+         ${misc:Depends}
+Description: strongSwan with FortiGate certificate + EAP support (unofficial)
+ Unofficial, third-party strongSwan build that connects to FortiGate
+ IPsec dial-up VPNs with eap-cert-auth enable (FortiOS 7.4.12/7.6.7+):
+ the client certificate is attached to a single EAP-only IKE_AUTH
+ round, the flow the FortiGate accepts.
+ .
+ This metapackage installs the patched daemon stack and the
+ NetworkManager plugin providing the "Certificate + EAP
+ (Username/Password)" method.  A future official Ubuntu update
+ replaces these packages automatically.
+ See https://github.com/strongswan/strongswan/issues/3120

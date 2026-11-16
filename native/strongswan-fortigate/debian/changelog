@@ -1,0 +1,7 @@
+strongswan-fortigate (1.0+fortigate1) resolute; urgency=medium
+
+  * Initial release: metapackage pulling the +fortigate1 strongSwan
+    stack and the NetworkManager plugin for FortiGate certificate +
+    EAP dial-up VPNs (eap-cert-auth enable, FortiOS 7.4.12/7.6.7+).
+
+ -- xezpeleta <xezpeleta@tknika.eus>  Mon, 16 Nov 2026 09:19:16 +0100
