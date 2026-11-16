@@ -1,0 +1,15 @@
+Origin: strongswan-fortigate
+Label: strongswan-fortigate
+Suite: resolute
+Codename: resolute
+Architectures: amd64
+Components: main
+Description: Unofficial strongSwan builds for FortiGate IPsec VPN (Ubuntu 26.04)
+Date: Mon, 16 Nov 2026 08:29:02 +0000
+Valid-Until: Tue, 16 Nov 2027 08:29:02 +0000
+MD5Sum:
+ f22bba58bffa91c411ed2782fdbaaf15    23682 main/binary-amd64/Packages
+ c6080631c6ab43df984256040e1794be     6629 main/binary-amd64/Packages.gz
+SHA256:
+ 136260d385ad095e488bcd6274ae0a547bf662cd244b2138fabfc46717dfa8f5    23682 main/binary-amd64/Packages
+ ee39233d2161a769420448aeaebd551f54ac89c0a28e034c701e95d7b56776c5     6629 main/binary-amd64/Packages.gz

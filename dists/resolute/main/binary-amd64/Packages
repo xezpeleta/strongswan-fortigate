@@ -1,0 +1,502 @@
+Package: charon-cmd
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 259
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.38), strongswan-libcharon (>= 6.0.4)
+Filename: pool/main/s/strongswan/charon-cmd_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 102354
+MD5sum: b69426a1b829473961aa8c0388dc4aae
+SHA1: 3e3924d68fa03f2bd56a459d112831cc6e4d3de9
+SHA256: 1dcc206db3913031b4ff79757bf4cf0b31005899272c47691bd8044e304202c7
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: standalone IPsec client
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package contains the charon-cmd command, which can be used as a client to
+ connect to a remote IKE daemon.
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: charon-systemd
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 269
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), strongswan-swanctl, libc6 (>= 2.34), libsystemd0, strongswan-libcharon (>= 6.0.4)
+Conflicts: strongswan-charon
+Filename: pool/main/s/strongswan/charon-systemd_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 98440
+MD5sum: 53b1562a1900f912ab0d427bea1cfebf
+SHA1: 0c8950b3a49baec7da576ed2d8536c4b3b816742
+SHA256: 17e5f4a41180521b34ae48ce840000505e81d1c0efa0364298d567a6161e0a8e
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan IPsec client, systemd support
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package contains the charon-systemd files.
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: libcharon-extauth-plugins
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 285
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.38)
+Breaks: libcharon-extra-plugins (<< 5.8.0-2~)
+Replaces: libcharon-extra-plugins (<< 5.8.0-2~)
+Filename: pool/main/s/strongswan/libcharon-extauth-plugins_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 103768
+MD5sum: 9bda0e678f6239465abe9a775e7f00fb
+SHA1: b7965ebf8ca50918520f8f1818d96d2dfdf864f1
+SHA256: c764209c59a4fddd02c55aeeb788bd2f0d2533f376e084abf6e76a84d52078e7
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan charon library (extended authentication plugins)
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package provides extended authentication plugins for the charon library:
+  - eap-mschapv2 (EAP-MSCHAPv2 protocol handler using passwords/NT hashes)
+    Used for client side to connect to some VPN concentrators configured for
+    Windows 7+ and modern OSX/iOS using IKEv2 (identify with public key,
+    authenticate with MSCHAPv2).
+  - xauth-generic (Generic XAuth backend that provides passwords from
+    ipsec.secrets and other credential sets)
+    Used for the client side to connect to VPN concentrators configured for
+    Android and older OSX/iOS using IKEv1 and XAUTH (identify with public key,
+    authenticate with XAUTH password).
+ .
+ These are the "not always, but still more commonly used" plugins, for further
+ needs even more plugins can be found in the package libcharon-extra-plugins.
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: libcharon-extra-plugins
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1202
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.38), libip4tc2 (>= 1.8.3), libpam0g (>= 0.99.7.1)
+Filename: pool/main/s/strongswan/libcharon-extra-plugins_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 315138
+MD5sum: 006f7102b94a4f0103e9c64fb93a4a73
+SHA1: 3654f3b7346f569be545e6919cade343e77b8cba
+SHA256: 96e956f159a50c6bc5040f0514099315d068a165117aff0d3a0f1c607d302ae5
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan charon library (extra plugins)
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package provides extra plugins for the charon library:
+  - addrblock (Narrow traffic selectors to RFC 3779 address blocks in X.509
+    certificates)
+  - certexpire (Export expiration dates of used certificates)
+  - eap-aka (Generic EAP-AKA protocol handler using different backends)
+  - eap-gtc (EAP-GTC protocol handler authenticating with XAuth backends)
+  - eap-identity (EAP-Identity identity exchange algorithm, to use with other
+    EAP protocols)
+  - eap-md5 (EAP-MD5 protocol handler using passwords)
+  - eap-radius (EAP server proxy plugin forwarding EAP conversations to a
+    RADIUS server)
+  - eap-tls (EAP-TLS protocol handler, to authenticate with certificates in
+    EAP)
+  - eap-tnc (EAP-TNC protocol handler, Trusted Network Connect in a TLS tunnel)
+  - eap-ttls (EAP-TTLS protocol handler, wraps other EAP methods securely)
+  - error-notify (Notification about errors via UNIX socket)
+  - ha (High-Availability clustering)
+  - kernel-libipsec (Userspace IPsec Backend with TUN devices)
+  - led (Let Linux LED subsystem LEDs blink on IKE activity)
+  - lookip (Virtual IP lookup facility using a UNIX socket)
+  - tnc (Trusted Network Connect)
+  - unity (Cisco Unity extensions for IKEv1)
+  - xauth-eap (XAuth backend that uses EAP methods to verify passwords)
+  - xauth-pam (XAuth backend that uses PAM modules to verify passwords)
+  - eap-dynamic (EAP proxy plugin that dynamically selects an EAP method
+    requested/supported by the client (since 5.0.1))
+  - eap-peap (EAP-PEAP protocol handler, wraps other EAP methods securely)
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: libstrongswan
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1429
+Depends: libc6 (>= 2.42), libcap2 (>= 1:2.10), libssl3t64 (>= 3.3.0), libsystemd0 (>= 227)
+Recommends: libstrongswan-standard-plugins
+Suggests: libstrongswan-extra-plugins
+Breaks: libstrongswan-standard-plugins (<< 6.0.0-1~)
+Replaces: libstrongswan-standard-plugins (<< 6.0.0-1~)
+Filename: pool/main/s/strongswan/libstrongswan_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 477030
+MD5sum: 8fd1d24f0d25937e302ca82de253dc0f
+SHA1: a433044e02a8e2403575ae7f9c21fb5fe2de5fc4
+SHA256: 1db594cb4b4fecd325caa55030ad45bebf2e9c56feda114c7d11d29121251a15
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan utility and crypto library
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package provides the underlying libraries of charon and other strongSwan
+ components. It is built in a modular way and is extendable through various
+ plugins.
+ .
+ Some default (as specified by the strongSwan projet) plugins are included.
+ For libstrongswan (cryptographic backends, URI fetchers and database layers):
+  - constraints (X.509 certificate advanced constraint checking)
+  - dnskey (Parse RFC 4034 public keys)
+  - drbg (NIST SP-800-90A Deterministic Random Bit Generator)
+  - nonce (Default nonce generation plugin)
+  - openssl (Crypto backend based on OpenSSL, provides
+    RSA/ECDSA/DH/ECDH/ciphers/hashers/HMAC/X.509/CRL/RNG)
+  - pem (PEM encoding/decoding routines)
+  - pkcs1 (PKCS#1 encoding/decoding routines)
+  - pkcs8 (PKCS#8 decoding routines)
+  - pubkey (Wrapper to handle raw public keys as trusted certificates)
+  - random (RNG reading from /dev/[u]random)
+  - revocation (X.509 CRL/OCSP revocation checking)
+  - x509 (Advanced X.509 plugin for parsing/generating X.509 certificates/CRLs
+    and OCSP messages)
+  - attr (Provides IKE attributes configured in strongswan.conf)
+  - kernel-netlink [linux] (IPsec/Networking kernel interface using Linux
+    Netlink)
+  - kernel-pfkey [kfreebsd] (IPsec kernel interface using PF_KEY)
+  - kernel-pfroute [kfreebsd] (Networking kernel interface using PF_ROUTE)
+  - resolve (Writes name servers received via IKE to a resolv.conf file or
+    installs them via resolvconf(8))
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: libstrongswan-extra-plugins
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1199
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.38), libcurl4t64 (>= 7.56.1), libgcrypt20 (>= 1.12.0), libgmp10 (>= 2:6.3.0+dfsg), libgpg-error0 (>= 1.14), libldap2 (>= 2.6.2), libtss2-sys1t64 (>= 3.0.1)
+Breaks: libstrongswan (<< 6.0.0-1~), libstrongswan-standard-plugins (<< 6.0.0-1~)
+Replaces: libstrongswan (<< 6.0.0-1~), libstrongswan-standard-plugins (<< 6.0.0-1~)
+Filename: pool/main/s/strongswan/libstrongswan-extra-plugins_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 383982
+MD5sum: 5dc93e4e10ad67125198cfd0e538f18f
+SHA1: 71e83bdcbc53881a457ff129a308a80dadad305b
+SHA256: 67208b6acfce5291c5e3df06e8deca4310483afc5ec299b5efdf69895bab1bb0
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan utility and crypto library (extra plugins)
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package provides extra plugins for the strongSwan utility and
+ cryptographic library.
+ .
+ Included plugins are:
+  - aes (AES-128/192/256 cipher software implementation)
+  - af-alg [linux] (AF_ALG Linux crypto API interface, provides
+    ciphers/hashers/hmac/xcbc)
+  - ccm (CCM cipher mode wrapper)
+  - cmac (CMAC cipher mode wrapper)
+  - ctr (CTR cipher mode wrapper)
+  - curl (libcurl based HTTP/FTP fetcher)
+  - curve25519 (support for Diffie-Hellman group 31 using Curve25519 and
+    support for the Ed25519 digital signature algorithm for IKEv2)
+  - fips-prf (PRF specified by FIPS, used by EAP-SIM/AKA algorithms)
+  - gcrypt (Crypto backend based on libgcrypt, provides
+    RSA/DH/ciphers/hashers/rng)
+  - gmp (RSA/DH crypto backend based on libgmp)
+  - hmac (HMAC wrapper using various hashers)
+  - ldap (LDAP fetching plugin based on libldap)
+  - md5 (MD5 hasher software implementation)
+  - mgf1 (Mask Generation Functions based on the SHA-1, SHA-256 and SHA-512)
+  - padlock (VIA padlock crypto backend, provides AES128/SHA1)
+  - pgp (PGP encoding/decoding routines)
+  - pkcs11 (PKCS#11 smartcard backend)
+  - pkcs12 (PKCS#12 decoding routines)
+  - rc2 (RC2 cipher software implementation)
+  - rdrand (High quality / high performance random source using the Intel
+    rdrand instruction found on Ivy Bridge processors)
+  - sha1 (SHA1 hasher software implementation)
+  - sha2 (SHA256/SHA384/SHA512 hasher software implementation)
+  - test-vectors (Set of test vectors for various algorithms)
+  - xcbc (XCBC wrapper using various ciphers)
+ .
+ Also included is the libtpmtss library adding support for TPM plugin
+ (https://wiki.strongswan.org/projects/strongswan/wiki/TpmPlugin)
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: libstrongswan-standard-plugins
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 377
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.25), libip4tc2 (>= 1.8.3)
+Breaks: libstrongswan (<< 6.0.0-1~)
+Replaces: libstrongswan (<< 6.0.0-1~)
+Filename: pool/main/s/strongswan/libstrongswan-standard-plugins_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 122450
+MD5sum: 60ca013b88387b6dc6665856b3e50e79
+SHA1: a5494b175a49b6a3ad5bd3328ea02d49e46bde44
+SHA256: 571bb955d5213fa44f5e26a62b141241e53addc8d94807a139cd68a7a07ef122
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan utility and crypto library (standard plugins)
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package provides some common plugins for the strongSwan utility and
+ cryptograhic library.
+ .
+ Included plugins are:
+  - agent (RSA/ECDSA private key backend connecting to SSH-Agent)
+  - gcm (GCM cipher mode wrapper)
+  - sshkey (SSH key decoding routines)
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: network-manager-strongswan
+Version: 1.6.4-1+certeap1
+Architecture: amd64
+Maintainer: Harald Dunkel <harri@afaics.de>
+Installed-Size: 213
+Depends: libc6 (>= 2.34), libglib2.0-0t64 (>= 2.80.0), libgtk-3-0t64 (>= 3.3.16), libgtk-4-1 (>= 4.0.0), libnm0 (>= 1.54.3), libnma-gtk4-0 (>= 1.8.34), libnma0 (>= 1.8), libsecret-1-0 (>= 0.7), strongswan-nm (>= 6.0.4), network-manager (>= 1.54.3)
+Filename: pool/main/n/network-manager-strongswan/network-manager-strongswan_1.6.4-1+certeap1_amd64.deb
+Size: 30736
+MD5sum: 9d85c33e1d6fe9695b9c93a1db91173b
+SHA1: 5390a381c7b304f0a9a1e8249cb9ef5405bcb2ac
+SHA256: 9b1ae4af5593d5dba5657dccaaaf46d2ab06f51febec8913a0ad5a404e41fe98
+Section: net
+Priority: optional
+Homepage: https://wiki.strongswan.org/projects/strongswan/wiki/NetworkManager
+Description: network management framework (strongSwan plugin)
+ NetworkManager attempts to keep an active network connection available at
+ all times.  It is intended primarily for laptops where it allows easy
+ switching between local wireless networks, it's also useful on desktops
+ with a selection of different interfaces to use.  It is not intended for
+ usage on servers.
+ .
+ This package provides a VPN plugin for strongSwan, providing easy access to
+ IKEv2 IPSec VPN's.
+
+Package: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: all
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 227
+Depends: charon-systemd | strongswan-charon, strongswan-swanctl | strongswan-starter
+Filename: pool/main/s/strongswan/strongswan_6.0.4-1ubuntu3.2+fortigate1_all.deb
+Size: 97464
+MD5sum: f3253a928903cfc1965a3422524bffac
+SHA1: 3ea1062dcce94d51ea00456101523bd14915ad19
+SHA256: f29a88939839ce9eceef52df481c54acd96b293e7c3db2e9d2434648dcfeeebc
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: IPsec VPN solution metapackage
+ The strongSwan VPN suite uses the native IPsec stack in the standard Linux
+ kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This metapackage installs the packages required to maintain IKEv1 and IKEv2
+ connections via swanctl command and the swanctl.conf configuration.
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: strongswan-charon
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 295
+Pre-Depends: debconf | debconf-2.0
+Depends: iproute2 | iproute, libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.38), strongswan-libcharon (>= 6.0.4)
+Recommends: strongswan-starter
+Conflicts: charon-systemd
+Provides: ike-server
+Filename: pool/main/s/strongswan/strongswan-charon_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 103130
+MD5sum: 2d4addfff22ee50cdb2e61c8045d5dc0
+SHA1: 4d81f1f354ed1a044389958b3236ae7cd713f7d6
+SHA256: 64db8ee8220e6f2a347a6020fee61534d25a2a8c7b3b8b6f9c28f951a71ef033
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan Internet Key Exchange daemon
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ charon is an IPsec IKEv2 daemon which can act as an initiator or a responder.
+ It is written from scratch using a fully multi-threaded design and a modular
+ architecture. Various plugins can provide additional functionality.
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: strongswan-fortigate
+Version: 1.0+fortigate1
+Architecture: all
+Maintainer: xezpeleta <xezpeleta@tknika.eus>
+Installed-Size: 7
+Depends: network-manager-strongswan (>= 1.6.4-1+certeap1), strongswan-charon (>= 6.0.4-1ubuntu3.2+fortigate1), strongswan-starter (>= 6.0.4-1ubuntu3.2+fortigate1), libcharon-extauth-plugins (>= 6.0.4-1ubuntu3.2+fortigate1), libcharon-extra-plugins (>= 6.0.4-1ubuntu3.2+fortigate1)
+Filename: pool/main/s/strongswan-fortigate/strongswan-fortigate_1.0+fortigate1_all.deb
+Size: 1398
+MD5sum: ce706e5560c05721f43088418999ab16
+SHA1: dd19a08bc94a944eee465d4b5beef543af186a5d
+SHA256: 192ad092a98fcd81c5aa387ae27cd45143832960040c1f86d521448b95c4ab07
+Section: net
+Priority: optional
+Description: strongSwan with FortiGate certificate + EAP support (unofficial)
+ Unofficial, third-party strongSwan build that connects to FortiGate
+ IPsec dial-up VPNs with eap-cert-auth enable (FortiOS 7.4.12/7.6.7+):
+ the client certificate is attached to a single EAP-only IKE_AUTH
+ round, the flow the FortiGate accepts.
+ .
+ This metapackage installs the patched daemon stack and the
+ NetworkManager plugin providing the "Certificate + EAP
+ (Username/Password)" method.  A future official Ubuntu update
+ replaces these packages automatically.
+ See https://github.com/strongswan/strongswan/issues/3120
+
+Package: strongswan-libcharon
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1054
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.38)
+Recommends: libcharon-extauth-plugins
+Suggests: libcharon-extra-plugins
+Filename: pool/main/s/strongswan/strongswan-libcharon_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 361748
+MD5sum: 2c21b572075d71e4b8363d3126849882
+SHA1: 0c374043b38e6bbdfdc3cacfb7c78195ebf2f23f
+SHA256: 1918438bcbac6587e37ed0e61591b5d109a9cc28abb2ce6091738673eed9b226
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan charon library
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package contains the charon library, used by IKE client like
+ strongswan-charon, strongswan-charon-cmd or strongswan-nm as well as standard
+ plugins:
+   - socket-default
+   - counters
+   - bypass-lan (disabled by default)
+ .
+ On Linux, it also contains the xfrmi binary which can be used on Linux 4.19+
+ to create XFRM interfaces (for more information, see
+ https://wiki.strongswan.org/projects/strongswan/wiki/RouteBasedVPN)
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: strongswan-nm
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 288
+Depends: libc6 (>= 2.34), libglib2.0-0t64 (>= 2.80.0), libnm0 (>= 1.54.3), libstrongswan (>= 6.0.4), strongswan-libcharon (>= 6.0.4)
+Recommends: network-manager-strongswan
+Replaces: network-manager-strongswan (<= 1.4.1-1~)
+Filename: pool/main/s/strongswan/strongswan-nm_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 108816
+MD5sum: 3b4f570161af4b50187de492bf8f2fbc
+SHA1: fac60f68527db84492e82a0e1e2dc6ff8bd19bba
+SHA256: e762884873601b25fd3bc4e66ad9317f3876116a6406e5d0b4f20559158c81d5
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan plugin to interact with NetworkManager
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This plugin provides an interface which allows NetworkManager to configure
+ and control the IKEv2 daemon directly through D-Bus. It is designed to work
+ in conjunction with the network-manager-strongswan package, providing
+ a simple graphical frontend to configure IPsec based VPNs.
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: strongswan-pki
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 402
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.38), libcharon-extra-plugins (>= 6.0.4)
+Filename: pool/main/s/strongswan/strongswan-pki_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 168554
+MD5sum: d0fd739d8f81fe850547ba577e780189
+SHA1: 2a16b8efaa93a3c5c905af6ef44eebc58404d803
+SHA256: 89f70aecc92d7bf48d622cf638f060dada2acbe373bcc289f768765590e8a659
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan IPsec client, pki command
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package contains the pki tool which allows on to run a simple public key
+ infrastructure.
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: strongswan-starter
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 663
+Depends: adduser, libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), sysvinit-utils (>= 3.05-3), strongswan-charon, debconf (>= 0.5) | debconf-2.0, libc6 (>= 2.38)
+Conflicts: libreswan
+Filename: pool/main/s/strongswan/strongswan-starter_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 234294
+MD5sum: 10424260f01cdaeb5fd4eee351d60bf6
+SHA1: 6bde1fbec1f92acd375474a4b14fb895f4e1a3e5
+SHA256: dfa5801c1b8b2fb90910f251355eeb7cf2237f92dad1508aa396a35dc0633cca
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan daemon starter and configuration file parser
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ The starter and the associated "ipsec" script control the charon daemon from
+ the command line. It parses ipsec.conf and loads the configurations to the
+ daemon.
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
+Package: strongswan-swanctl
+Source: strongswan
+Version: 6.0.4-1ubuntu3.2+fortigate1
+Architecture: amd64
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 577
+Depends: libstrongswan (= 6.0.4-1ubuntu3.2+fortigate1), libc6 (>= 2.38)
+Breaks: strongswan-starter (<< 5.8.0-1)
+Replaces: strongswan-starter (<< 5.8.0-1)
+Filename: pool/main/s/strongswan/strongswan-swanctl_6.0.4-1ubuntu3.2+fortigate1_amd64.deb
+Size: 204784
+MD5sum: 02bd5f2e60ed00d9bbe6fe457e919305
+SHA1: 9f6335b21f34578f6ee1739de36fb125f429fe6f
+SHA256: 74adb76388a9d11a864ea72b065d5b1aa9b90880b64e726737489d77fbf2c00a
+Section: net
+Priority: optional
+Homepage: http://www.strongswan.org
+Description: strongSwan IPsec client, swanctl command
+ The strongSwan VPN suite uses the native IPsec stack in the standard
+ Linux kernel. It supports both the IKEv1 and IKEv2 protocols.
+ .
+ This package contains the swanctl interface, used to configure a running
+ charon daemon
+Original-Maintainer: strongSwan Maintainers <pkg-swan-devel@lists.alioth.debian.org>
+
