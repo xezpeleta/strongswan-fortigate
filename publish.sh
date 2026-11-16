@@ -105,7 +105,7 @@ Fortinet or Ubuntu. Tested on FortiGate 101F / FortiOS 7.4.13 / Ubuntu 26.04.
 All Ubuntu security patches are preserved; a future official Ubuntu update
 replaces these builds automatically.
 EOF
-REL_ASSETS="dist/strongswan-fortigate_*_all.deb dist/*fortigate1*.deb dist/network-manager-strongswan_*certeap1_amd64.deb"
+REL_ASSETS="dist/*fortigate1*.deb dist/network-manager-strongswan_*certeap1_amd64.deb"
 if gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
     # shellcheck disable=SC2086
     gh release upload "$TAG" -R "$REPO" $REL_ASSETS --clobber
