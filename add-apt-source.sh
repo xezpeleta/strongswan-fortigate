@@ -13,7 +13,7 @@ set -e
 REPO_URL="https://xezpeleta.github.io/strongswan-deb-packages"
 KEYRING="/usr/share/keyrings/xezpeleta-strongswan-certeap.gpg"
 SOURCES_FILE="/etc/apt/sources.list.d/xezpeleta-strongswan-certeap.sources"
-PACKAGES="network-manager-strongswan strongswan-nm"
+PACKAGES="network-manager-strongswan strongswan-charon libcharon-extauth-plugins libcharon-extra-plugins"
 
 [ "$(id -u)" = 0 ] || { echo "ERROR: run as root (sudo)"; exit 1; }
 

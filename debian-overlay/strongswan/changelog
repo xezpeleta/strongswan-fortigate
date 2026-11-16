@@ -1,3 +1,48 @@
+strongswan (6.0.4-1ubuntu3.2+fortigate1) resolute; urgency=medium
+
+  * Publish the FortiGate compatibility build (same content as the
+    unpublished +certeap2).  Ubuntu's strongSwan 6.0.4 cannot connect
+    to a FortiGate IPsec dial-up VPN with "eap-cert-auth enable"
+    (FortiOS 7.4.12/7.6.7+ enforces the client certificate): the
+    gateway does not implement RFC 4739 multiple authentication, and
+    stock strongSwan never attaches a certificate to an EAP-only
+    IKE_AUTH request, so the gateway silently drops it.  On top of
+    the cert-eap NetworkManager backport from +certeap1, this build
+    makes NetworkManager's "Certificate + EAP" method use a single
+    EAP-only authentication round that carries the client certificate
+    (IDi + CERT + EAP_ONLY, no AUTH payload), which the FortiGate
+    accepts.  See https://github.com/strongswan/strongswan/issues/3120.
+
+ -- xezpeleta <xezpeleta@tknika.eus>  Mon, 16 Nov 2026 08:45:14 +0100
+
+strongswan (6.0.4-1ubuntu3.2+certeap3) resolute; urgency=medium
+
+  * Local test build (not published): swanctl proposal form of the
+    EAP-only certificate change.  Replaces the FortiGate-specific
+    ike_cert_post patch from +certeap2 with an opt-in gated on the
+    existing certificate policy: the certificate configured for the
+    local EAP auth round is attached to the first IKE_AUTH request
+    (IDi present, no AUTH payload) only when send_cert = always.
+    Defaults (ifasked/never) are unchanged.
+
+ -- xezpeleta <xezpeleta@tknika.eus>  Tue, 03 Nov 2026 13:56:41 +0100
+
+strongswan (6.0.4-1ubuntu3.2+certeap2) resolute; urgency=medium
+
+  * cert-eap: use a FortiGate eap-cert-auth compatible flow.  FortiGate
+    silently drops the IKE_AUTH request when a client sends an AUTH
+    payload while eap-cert-auth is enabled, so instead of two RFC 4739
+    rounds (pubkey signature + EAP) send the client certificate
+    attached to a single EAP-only authentication round:
+    - ike_cert_post: attach the certificate configured for the local
+      EAP auth round to the first IKE_AUTH request even if it does not
+      carry an AUTH payload (stock strongSwan never sends certificates
+      without one)
+    - charon-nm: build one EAP auth round with certificate, EAP identity
+      and password for the cert-eap method
+
+ -- xezpeleta <xezpeleta@tknika.eus>  Tue, 03 Nov 2026 11:52:28 +0100
+
 strongswan (6.0.4-1ubuntu3.2+certeap1) resolute; urgency=medium
 
   * Backport charon-nm cert-eap method from upstream master (commits

@@ -14,7 +14,11 @@ KEYID=$(gpg --list-secret-keys --keyid-format long --with-colons 2>/dev/null \
         | awk -F: '/^sec/ {print $5; exit}')
 [ -n "$KEYID" ] || { echo "ERROR: no GPG secret key found"; exit 1; }
 
-for f in dist/network-manager-strongswan_*+certeap1_amd64.deb dist/strongswan-nm_*+certeap1_amd64.deb; do
+for f in dist/network-manager-strongswan_*_amd64.deb \
+         dist/strongswan-charon_*fortigate1*.deb \
+         dist/strongswan-libcharon_*fortigate1*.deb \
+         dist/libstrongswan_*fortigate1*.deb \
+         dist/libcharon-extauth-plugins_*fortigate1*.deb; do
     [ -e "$f" ] || { echo "ERROR: $f missing — run build-in-docker.sh first"; exit 1; }
 done
 
@@ -30,8 +34,8 @@ docker run --rm \
         mkdir -p apt-repo/pool/main/n/network-manager-strongswan \
                  apt-repo/pool/main/s/strongswan \
                  "apt-repo/dists/$SUITE/main/binary-amd64"
-        cp dist/network-manager-strongswan_*+certeap1_amd64.deb apt-repo/pool/main/n/network-manager-strongswan/
-        cp dist/strongswan-nm_*+certeap1_amd64.deb apt-repo/pool/main/s/strongswan/
+        cp dist/network-manager-strongswan_*_amd64.deb apt-repo/pool/main/n/network-manager-strongswan/
+        cp dist/*fortigate1*.deb apt-repo/pool/main/s/strongswan/
         cd apt-repo
 
         dpkg-scanpackages --arch amd64 pool > "dists/$SUITE/main/binary-amd64/Packages"
@@ -45,9 +49,9 @@ docker run --rm \
             echo "Codename: $SUITE"
             echo "Architectures: amd64"
             echo "Components: main"
-            echo "Description: strongSwan cert-eap backport for Ubuntu 26.04"
+            echo "Description: Unofficial strongSwan builds for FortiGate IPsec VPN (Ubuntu 26.04)"
             echo "Date: $(date -Ru)"
-            echo "Valid-Until: $(date -Ru -d "+7 days")"
+            echo "Valid-Until: $(date -Ru -d "+365 days")"
             echo "MD5Sum:"
             while read -r f; do
                 printf " %s %8d %s\n" "$(md5sum < "$f" | cut -d" " -f1)" "$(stat -c%s "$f")" "$f"

@@ -19,3 +19,6 @@ nohup.out
 /apt-repo/
 /.gh-pages/
 *.swp
+
+# local-only swanctl test kit (contains connection specifics, never publish)
+testing/

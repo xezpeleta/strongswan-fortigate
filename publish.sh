@@ -9,7 +9,7 @@ set -e
 cd "$(dirname "$0")"
 
 REPO="${GITHUB_REPOSITORY:-xezpeleta/strongswan-deb-packages}"
-TAG="${RELEASE_TAG:-certeap-1}"
+TAG="${RELEASE_TAG:-fortigate-1}"
 
 [ -d apt-repo/dists ] || { echo "ERROR: apt-repo/ missing — run update-apt-repo.sh first"; exit 1; }
 git rev-parse -q --verify HEAD >/dev/null || { echo "ERROR: nothing committed yet"; exit 1; }
@@ -21,9 +21,10 @@ gh auth setup-git >/dev/null
 if ! gh repo view "$REPO" >/dev/null 2>&1; then
     echo "==> creating GitHub repository $REPO (public)"
     gh repo create "$REPO" --public \
-        --description "strongSwan cert-eap (certificate + EAP, RFC 4739) backport for Ubuntu 26.04 — NetworkManager plugin" \
+        --description "Unofficial strongSwan builds for FortiGate IPsec VPN (certificate + EAP) — Ubuntu 26.04" \
         --homepage "https://xezpeleta.github.io/strongswan-deb-packages/"
 fi
+gh repo edit "$REPO" --description "Unofficial strongSwan builds for FortiGate IPsec VPN (certificate + EAP) — Ubuntu 26.04" >/dev/null 2>&1 || true
 
 if ! git remote get-url origin >/dev/null 2>&1; then
     git remote add origin "https://github.com/$REPO.git"
@@ -42,16 +43,22 @@ cat > .gh-pages/index.html <<'EOF'
 <html lang="en">
 <head><meta charset="utf-8"><title>strongswan-deb-packages</title></head>
 <body style="font-family: sans-serif; max-width: 46rem; margin: 3rem auto; line-height: 1.5">
-<h1>strongSwan <code>cert-eap</code> backport for Ubuntu 26.04</h1>
-<p>Signed apt repository with NetworkManager strongSwan plugin packages
-that support <strong>certificate + EAP two-factor authentication</strong>
-(RFC 4739) — needed for FortiGate IPsec VPNs with
-<code>eap-cert-auth enable</code> (FortiOS 7.4.13+).</p>
+<h1>Unofficial strongSwan for FortiGate IPsec VPN — Ubuntu 26.04</h1>
+<p><strong>Unofficial, third-party builds</strong> — not affiliated with the
+strongSwan project, Fortinet or Ubuntu. They patch Ubuntu 26.04's strongSwan
+so NetworkManager's <strong>"Certificate + EAP"</strong> method works with
+FortiGate IPsec dial-up VPNs using
+<code>eap-cert-auth enable</code> (FortiOS&nbsp;7.4.12&nbsp;/&nbsp;7.6.7+
+enforces the client certificate and silently drops EAP-only clients;
+the gateway does not implement RFC&nbsp;4739).
+Details: <a href="https://github.com/strongswan/strongswan/issues/3120">strongswan#3120</a>,
+<a href="https://github.com/xezpeleta/strongswan-deb-packages">source &amp; releases</a>.</p>
 <p>Enable on Ubuntu 26.04:</p>
 <pre>curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh -o /tmp/a.sh
 sudo bash /tmp/a.sh --install</pre>
-<p>Source code and releases:
-<a href="https://github.com/xezpeleta/strongswan-deb-packages">xezpeleta/strongswan-deb-packages</a></p>
+<p>The repository is signed; the <code>InRelease</code> GPG signature is the
+trust anchor. Review the (small) patches and rebuild from source if you
+prefer your own binaries.</p>
 </body>
 </html>
 EOF
@@ -72,26 +79,40 @@ gh api -X POST "repos/$REPO/pages" -f 'source[branch]=gh-pages' -f 'source[path]
 echo "==> publishing release $TAG"
 NOTES=$(mktemp)
 cat > "$NOTES" <<EOF
-strongSwan cert-eap backport for Ubuntu 26.04 (resolute, amd64).
+Unofficial strongSwan builds for FortiGate IPsec VPN (Ubuntu 26.04, resolute, amd64).
 
-Adds the "Certificate + EAP (Username/Password)" method to the
-NetworkManager strongSwan plugin (RFC 4739: two authentication
-rounds — client X.509 certificate + EAP username/password in one
-IKE_SA). Needed for FortiGate IPsec dial-up VPNs with
-eap-cert-auth enable (FortiOS 7.4.13+).
+Ubuntu's strongSwan 6.0.4 cannot connect to a FortiGate IPsec dial-up VPN
+with eap-cert-auth enable (FortiOS 7.4.12/7.6.7+): the gateway requires
+the client certificate in the first IKE_AUTH request, does not implement
+RFC 4739 multiple authentication, and silently drops EAP-only requests.
+Stock strongSwan never attaches a certificate to an EAP-only round.
 
-Easier: use the apt repository — see
+These packages backport the upstream cert-eap NetworkManager method and
+add a compatibility patch: with these installed, NetworkManager's
+"Certificate + EAP (Username/Password)" method sends a single EAP-only
+authentication round carrying the client certificate, which the FortiGate
+accepts. See https://github.com/strongswan/strongswan/issues/3120 and
+https://github.com/strongswan/strongswan/discussions/3014
+
+Easier and recommended: use the apt repository —
 https://xezpeleta.github.io/strongswan-deb-packages/
 
-Minimal install from this release:
-    sudo apt install ./network-manager-strongswan_1.6.4-1+certeap1_amd64.deb \\
-                     ./strongswan-nm_6.0.4-1ubuntu3.2+certeap1_amd64.deb
+    curl -fsSL https://xezpeleta.github.io/strongswan-deb-packages/add-apt-source.sh -o /tmp/a.sh
+    sudo bash /tmp/a.sh --install
+
+Unofficial third-party builds; not affiliated with the strongSwan project,
+Fortinet or Ubuntu. Tested on FortiGate 101F / FortiOS 7.4.13 / Ubuntu 26.04.
+All Ubuntu security patches are preserved; a future official Ubuntu update
+replaces these builds automatically.
 EOF
+REL_ASSETS="dist/*fortigate1*.deb dist/network-manager-strongswan_*certeap1_amd64.deb"
 if gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
-    gh release upload "$TAG" -R "$REPO" dist/*.deb --clobber
+    # shellcheck disable=SC2086
+    gh release upload "$TAG" -R "$REPO" $REL_ASSETS --clobber
 else
-    gh release create "$TAG" -R "$REPO" dist/*.deb \
-        --title "cert-eap backport for Ubuntu 26.04" \
+    # shellcheck disable=SC2086
+    gh release create "$TAG" -R "$REPO" $REL_ASSETS \
+        --title "strongSwan for FortiGate IPsec VPN (+fortigate1)" \
         --notes-file "$NOTES"
 fi
 rm -f "$NOTES"

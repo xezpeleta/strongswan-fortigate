@@ -23,3 +23,4 @@ CVE-2026-78133.patch
 CVE-2026-78134.patch
 CVE-2026-78135.patch
 zz-cert-eap-backport.patch
+zz-fortigate-cert-eap.patch

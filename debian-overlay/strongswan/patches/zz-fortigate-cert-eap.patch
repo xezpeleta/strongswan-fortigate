@@ -1,0 +1,79 @@
+--- a/src/charon-nm/nm/nm_service.c
++++ b/src/charon-nm/nm/nm_service.c
+@@ -720,6 +720,27 @@
+ 		auth->add(auth, AUTH_RULE_AAA_IDENTITY,
+ 				  identification_create_from_string("%any"));
+ 	}
++	else if (streq(method, "cert-eap"))
++	{	/* FortiGate eap-cert-auth compatibility: the certificate is
++		 * attached to an EAP-only authentication round instead of being
++		 * used for a signature-based round, which FortiGate rejects */
++		identification_t *eap_user;
++		const char *eap_name, *eap_pw;
++
++		auth->add(auth, AUTH_RULE_AUTH_CLASS, AUTH_CLASS_EAP);
++		auth->add(auth, AUTH_RULE_AAA_IDENTITY,
++				  identification_create_from_string("%any"));
++		eap_name = nm_setting_vpn_get_data_item(vpn, "user");
++		eap_user = identification_create_from_string(
++							eap_name ? (char*)eap_name : "%any");
++		eap_pw = nm_setting_vpn_get_secret(vpn, "password");
++		if (eap_pw)
++		{
++			priv->creds->set_username_password(priv->creds, eap_user,
++													(char*)eap_pw);
++		}
++		auth->add(auth, AUTH_RULE_EAP_IDENTITY, eap_user);
++	}
+ 	else
+ 	{
+ 		auth->add(auth, AUTH_RULE_AUTH_CLASS, AUTH_CLASS_PUBKEY);
+@@ -1065,17 +1086,11 @@
+ 		}
+ 	}
+ 	else if (streq(method, "cert-eap"))
+-	{
++	{	/* single EAP auth round carrying the certificate */
+ 		if (!add_auth_cfg_cert(priv, vpn, peer_cfg, user, err))
+ 		{
+ 			peer_cfg->destroy(peer_cfg);
+ 			gateway->destroy(gateway);
+-			return FALSE;
+-		}
+-		if (!add_auth_cfg_pw(priv, vpn, peer_cfg, err))
+-		{
+-			peer_cfg->destroy(peer_cfg);
+-			gateway->destroy(gateway);
+ 			return FALSE;
+ 		}
+ 	}
+
+--- a/src/libcharon/sa/ikev2/tasks/ike_cert_post.c
++++ b/src/libcharon/sa/ikev2/tasks/ike_cert_post.c
+@@ -286,8 +286,24 @@
+ 
+ 	payload = (auth_payload_t*)message->get_payload(message, PLV2_AUTH);
+ 	peer_cfg = this->ike_sa->get_peer_cfg(this->ike_sa);
+-	if (!peer_cfg || !payload || payload->get_auth_method(payload) == AUTH_PSK)
+-	{	/* no CERT payload for EAP/PSK */
++	if (!peer_cfg)
++	{
++		return;
++	}
++	if (!payload)
++	{	/* FortiGate eap-cert-auth compatibility: EAP-only authentication
++		 * with a client certificate attached.  Send the certificate
++		 * configured for the local EAP auth round in the first IKE_AUTH
++		 * request, which does not carry an AUTH payload. */
++		if (message->get_exchange_type(message) != IKE_AUTH ||
++			!message->get_request(message) ||
++			message->get_message_id(message) != 1)
++		{
++			return;
++		}
++	}
++	else if (payload->get_auth_method(payload) == AUTH_PSK)
++	{	/* no CERT payload for PSK */
+ 		return;
+ 	}
+ 
